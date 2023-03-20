@@ -1,10 +1,10 @@
-apiVersion: argoproj.io/v1alpha1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pipeline-manager
 spec:
-  replicas: 5
-  revisionHistoryLimit: 1
+  replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: pipeline-manager
@@ -14,15 +14,7 @@ spec:
         app: pipeline-manager
     spec:
       containers:
-        - name: pipeline-manager
-          image: 839151377425.dkr.ecr.us-east-1.amazonaws.com/codefresh-inc/codefresh/pipeline-manager:master
-
-          imagePullPolicy: Always
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          resources:
-            requests:
-              memory: 32Mi
-              cpu: 5m
+      - image: 839151377425.dkr.ecr.us-east-1.amazonaws.com/codefresh-inc/codefresh/pipeline-manager:master
+        name: pipeline-manager
+        ports:
+        - containerPort: 80
